@@ -24,7 +24,7 @@ public:
 };
 
 template <class T>
-class DSLK
+class DSLK 
 {
 private:
     int size;

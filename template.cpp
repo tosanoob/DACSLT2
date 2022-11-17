@@ -52,7 +52,7 @@ template <class T>
 // this methods always insert to bottom.
 bool DSLK<T>::insert(T &add)
 {
-    T *temp = head;
+    T *temp;
     if (size == 0)
     {
         temp = new T(add);

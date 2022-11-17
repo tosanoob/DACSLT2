@@ -1,66 +1,39 @@
-#pragma once
-#include <string>
+#ifndef SACH_CPP
+#define SACH_CPP
+
+#include "sach.h"
 #include <iostream>
-#include <fstream>
-#include <iomanip>
-#include "base.h"
-using namespace std;
 
-istream &operator>>(istream &in, Sach &a)
+Sach::Sach(string ten="default", string tga="default", int cpy=0) : tsach(ten), ttgia(tga), soban(cpy), ma("000000") {}
+void Sach::update()
 {
-    string ten, tga;
-    int cpy;
-    cout << "Nhap ten sach: ";
-    getline(in, ten, '\n');
-    cout << "Nhap ten tac gia: ";
-    getline(in, tga, '\n');
-    cout << "Nhap so ban: ";
-    in >> cpy;
-    a.settsach(ten);
-    a.setttgia(tga);
-    a.setsoban(cpy);
-    return in;
+    // cap nhat thong tin cua mot sach:
+    cout << "Nhap moi thong tin cua cuon sach nay\n";
+    cout << "Ten sach: ";
+    cin.ignore();
+    getline(cin, tsach, '\n');
+    cout << "Ten tac gia: ";
+    cin.ignore();
+    getline(cin, ttgia, '\n');
+    cout << "So ban in: ";
+    cin >> soban;
+    cout << "Cap nhat hoan tat";
+    return;
 }
 
-ostream &operator<<(ostream &out, Sach a)
+
+void Sach:: setid(const string& a) {ma = a;}
+
+string Sach:: getid() {return ma;}
+
+bool Sach::operator==(const Sach &comp)
 {
-    out << a.ma;
-    out << setw(40) << a.tsach << setw(30) << a.ttgia;
-    out << setw(10) << a.soban << '\n';
-    return out;
-}
-//-----------------------------------------------
-int read_line(ifstream &inp, Sach &a)
-{
-    if (!inp)
-    {
-        cout << "Error input file";
+    if (tsach != comp.tsach)
         return 0;
-    }
-    string ten, tga, ma, cp;
-    int cpy;
-    getline(inp, ma, '|');
-    if (ma.size() < 6)
+    if (ttgia != comp.ttgia)
         return 0;
-    getline(inp, ten, '|');
-    getline(inp, tga, '|');
-    getline(inp, cp, '\n');
-    cpy = stoi(cp);
-    a.setma(ma);
-    a.settsach(ten);
-    a.setttgia(tga);
-    a.setsoban(cpy);
     return 1;
 }
+Sach::~Sach() {}
 
-int write_line(ofstream &out, Sach *a)
-{
-    if (!out)
-    {
-        cout << "Error output file";
-        return 0;
-    }
-    out << a->ma << '|' << a->tsach << '|' << a->ttgia << '|' << a->soban << '\n';
-    return 1;
-}
-//----------------------------------------------
+#endif
