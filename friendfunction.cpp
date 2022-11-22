@@ -14,12 +14,12 @@ print list of books borrowing by a user
 #ifndef FUNCTION_CPP
 #define FUNCTION_CPP
 
-#include "sach.h"
-#include "user.h"
+#include "sach.cpp"
+#include "user.cpp"
 #include "template.h"
 #include <iomanip>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 using namespace std;
 
 istream &operator>>(istream &inp, Sach &a)
@@ -39,7 +39,7 @@ ostream &operator<<(ostream &out, const Sach &a)
     return out;
 }
 
-ofstream &operator<<(ofstream &out, const Sach &a)
+ofstream &operator<<(ofstream &out, Sach &a)
 {
     out << a.ma << '|' << a.tsach << '|' << a.ttgia << '|' << a.soban << '\n';
     return out;
@@ -52,19 +52,11 @@ ifstream &operator>>(ifstream &inp, Sach &a)
     getline(inp, a.ttgia, '|');
     string cp;
     getline(inp, cp, '\n');
-    a.soban = stoi(cp);
-    return inp;
-}
-
-void read_file(ifstream &inp, DSLK<Node<Sach>> &list)
-{
-    Sach temp;
-    while (!inp.eof())
-    {
-        inp >> temp;
-        list.insert(temp);
+    try {a.soban = stoi(cp);}
+    catch (invalid_argument) {
+        throw;
     }
-    return;
+    return inp;
 }
 
 //--------------------------------------
@@ -92,17 +84,51 @@ ifstream &operator>>(ifstream &inp, User &a)
     return inp;
 }
 
-ofstream &operator<<(ofstream &out, const User &a)
+ofstream &operator<<(ofstream &out, User &user)
 {
-    out << a.uid << '|' << a.ten << '|' << a.cmd << '\n';
+    out << user.uid << '|' << user.ten << '|' << user.cmd << '\n';
 }
 
 //------------------------------------------
-template <class T>
-void write_file(ofstream &out, DSLK<T> &list)
+void read_file(ifstream &inp, DSLK<Node<Sach>> &list)
 {
-    T* temp = list.head;
-    for (int i =0;i<size;i++) {
+    Sach temp;
+    while (!inp.eof())
+    {
+        try {inp >> temp;}
+        catch (invalid_argument) {
+            return;
+        }
+        list.insert(temp);
+    }
+    return;
+}
+
+void read_file(ifstream &inp, DSLK<Node<User>> &list)
+{
+    User temp;
+    while (!inp.eof())
+    {
+        inp >> temp;
+        list.insert(temp);
+    }
+    return;
+}
+
+
+void write_file(ofstream &out, DSLK<Node<User>> &list)
+{
+    Node<User>* temp = list.head;
+    for (int i =0;i<list.size;i++) {
+        out<<temp->getdata();
+        temp=temp->tonext();
+    }
+}
+
+void write_file(ofstream &out, DSLK<Node<Sach>> &list)
+{
+    Node<Sach>* temp = list.head;
+    for (int i =0;i<list.size;i++) {
         out<<temp->getdata();
         temp=temp->tonext();
     }
@@ -111,7 +137,7 @@ void write_file(ofstream &out, DSLK<T> &list)
 template <class T>
 T& find_id (const string & lookid, DSLK<Node<T>>& list) {
     Node<T>* temp = list.head;
-    for (int i =0;i<size;i++) {
+    for (int i =0;i<list.size;i++) {
         if (temp->getdata().getid()==lookid) return *temp;
         temp = temp->tonext();
     }

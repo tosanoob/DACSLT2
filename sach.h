@@ -27,11 +27,12 @@ class Sach {
     friend ostream& operator << (ostream&, const Sach&);
     
     friend ifstream& operator >> (ifstream&, Sach&);
-    friend ofstream& operator << (ofstream&, const Sach&);
+    friend ofstream& operator << (ofstream&, Sach&);
 
     friend void write_file(ofstream&, DSLK<Node<Sach>>&);
     friend void read_file(ifstream&, DSLK<Node<Sach>>&);
     
+    friend Sach& find_id (const string &, DSLK<Node<Sach>>&);
     friend bool borrowbook(DSLK<Node<User>>& userlist, DSLK<Node<Sach>>& booklist, User& borrower, Sach& target);
     /*
     friend functions:

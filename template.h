@@ -3,6 +3,8 @@
 
 //exception marks
 #define MEMBER_NOTFOUND (int)1
+#include <string>
+using namespace std;
 
 
 //Double linked list template implementation
@@ -26,6 +28,8 @@ public:
     ~Node();
 };
 
+class Sach;
+class User;
 
 template <class T>
 class DSLK 
@@ -48,12 +52,10 @@ public:
     template <class U>
     T *find(U &);
     void display();//display the list
-    
-    template<class T>
-    friend void write_file<>(ofstream &, DSLK<T>&);
-
-    template<class T>
-    friend T& find_id(const string &, DSLK<Node<T>>&);
-};
+    friend void write_file(ofstream &, DSLK<Node<Sach>> &);
+    friend void write_file(ofstream&, DSLK<Node<User>>&);
+    friend User& find_id (const string &, DSLK<Node<User>>&);
+    friend Sach& find_id (const string &, DSLK<Node<Sach>>&);
+};  
 
 #endif
