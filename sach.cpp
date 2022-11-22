@@ -21,6 +21,7 @@ void Sach::update()
     return;
 }
 
+DSLK<Node<User*>>& Sach:: getlist() {return list;}
 
 void Sach:: setid(const string& a) {ma = a;}
 

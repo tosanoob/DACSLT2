@@ -17,6 +17,8 @@ void User:: update() {
     return;
 }
 
+DSLK<Node<Sach*>>& User:: getlist() {return list;}
+
 void User:: setid(const string& a) {uid=a;}
 
 string User:: getid() {return uid;}

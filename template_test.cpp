@@ -27,16 +27,27 @@ ostream& operator << (ostream& out, const Num& o) {
 }
 
 int main() {
-    Node<Num> a(Num(5));
+    Num a(5);
+    Num* ptr = &a;
     DSLK<Node<Num>> handle;
+    DSLK<Node<Num*>> ptrlist;
     handle.insert(a);
-    a.getdata().setnum(10);
+    ptrlist.insert(ptr);
+
+    a.setnum(10);
     handle.insert(a);
-    a.getdata().setnum(11);
+    ptrlist.insert(ptr);
+
+    a.setnum(11);
     handle.insert(a);
-    a.getdata().setnum(16);
+    ptrlist.insert(ptr);
+
+    a.setnum(16);
     handle.insert(a);
-    handle.update(a);
+    ptrlist.insert(ptr);
+
+    cout<<"handle\n";
     handle.display();
+    ptrlist.display();
     return 0;
 }

@@ -1,8 +1,11 @@
 #ifndef TEMPLATE_H
 #define TEMPLATE_H
 
-//Double linked list template implementation
+//exception marks
+#define MEMBER_NOTFOUND (int)1
 
+
+//Double linked list template implementation
 template <class U>
 class Node
 {
@@ -23,6 +26,7 @@ public:
     ~Node();
 };
 
+
 template <class T>
 class DSLK 
 {
@@ -35,11 +39,21 @@ public:
     // CRUD
     DSLK(); //constructor
     ~DSLK();//destructor
-    bool insert(T &);//insert a member to the bottom
-    bool remove(T &);//find and remove a member 
-    bool update(T &);//update a member
+    template <class U>
+    bool insert(U &);//insert a member to the bottom
+    template <class U>
+    bool remove(U &);//find and remove a member
+    template <class U> 
+    T& update(U &);//update a member
+    template <class U>
+    T *find(U &);
     void display();//display the list
-    T *find(T &);
+    
+    template<class T>
+    friend void write_file<>(ofstream &, DSLK<T>&);
+
+    template<class T>
+    friend T& find_id(const string &, DSLK<Node<T>>&);
 };
 
 #endif

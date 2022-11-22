@@ -5,10 +5,14 @@
 #include "template.h"
 using namespace std;
 
+class User;
+
 class Sach {
     private:
     string tsach, ttgia, ma;
     int soban;
+
+    DSLK<Node<User*>> list;
 
     public:
     Sach(string,string,int);
@@ -16,15 +20,19 @@ class Sach {
     bool operator == (const Sach&);
     void setid(const string&);
     string getid();
+    DSLK<Node<User*>>& getlist();
     ~Sach();
 
     friend istream& operator >> (istream&, Sach&);
     friend ostream& operator << (ostream&, const Sach&);
     
-    friend void write_line(ofstream&, Node<Sach>&);
-    friend void read_line(ifstream&, Node<Sach>&);
+    friend ifstream& operator >> (ifstream&, Sach&);
+    friend ofstream& operator << (ofstream&, const Sach&);
+
     friend void write_file(ofstream&, DSLK<Node<Sach>>&);
     friend void read_file(ifstream&, DSLK<Node<Sach>>&);
+    
+    friend bool borrowbook(DSLK<Node<User>>& userlist, DSLK<Node<Sach>>& booklist, User& borrower, Sach& target);
     /*
     friend functions:
     borrow books

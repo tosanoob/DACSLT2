@@ -5,6 +5,7 @@
 #include <iostream>
 using namespace std;
 
+
 //methods of Node<U>
 //U is a random data structure
 template <class U>
@@ -31,15 +32,16 @@ U& Node<U>:: getdata() {return data;}
 template <class T>
 DSLK<T>:: DSLK() : head(NULL), tail(NULL), size(0) {}
 
-template <class T>
+template <class T> 
+template <class U>
 // this method finds a member with value "f",
 // return the pointer to member if found, else return NULL
-T *DSLK<T>::find(T &f)
+T *DSLK<T>::find(U &findvalue)
 {
     T *temp = head;
     for (int i = 0; i < size; i++)
     {
-        if (temp->getdata() == f.getdata())
+        if (temp->getdata() == findvalue)
         {
             return temp;
         }
@@ -49,8 +51,9 @@ T *DSLK<T>::find(T &f)
 }
 
 template <class T>
+template <class U>
 // this methods always insert to bottom.
-bool DSLK<T>::insert(T &add)
+bool DSLK<T>::insert(U &add)
 {
     T *temp;
     if (size == 0)
@@ -77,8 +80,9 @@ bool DSLK<T>::insert(T &add)
 }
 
 template <class T>
+template <class U>
 // this method remove member with value rev from any position
-bool DSLK<T>::remove(T &rev)
+bool DSLK<T>::remove(U &rev)
 {
     T *temp = find(rev);
     if (temp == NULL)
@@ -126,21 +130,24 @@ bool DSLK<T>::remove(T &rev)
     }
 }
 
+
 template <class T>
+template <class U>
 // this method find the member with value "upd"
 // then call .update() method of class T, to update the found member;
 // if no member is found with value "upd", exit without updating.
-bool DSLK<T>::update(T &upd)
+T& DSLK<T>::update(U &upd)
 {
     T *temp = find(upd);
     if (temp == NULL)
     {
         // no member found
-        return 0;
+        throw MEMBER_NOTFOUND;
     }
-    temp->getdata().update();
-    return 1;
+    else return *temp;
 }
+
+
 
 template <class T>
 void DSLK<T>::display()
@@ -148,7 +155,7 @@ void DSLK<T>::display()
     T *temp = head;
     for (int i = 0; i < size; i++)
     {
-        cout << temp->getdata() << ' ';
+        cout << temp->getdata() << '\n';
         temp = temp->tonext();
     }
 }
