@@ -13,7 +13,7 @@
 - Các methods & functions đã test ổn
 
 <b> *Cần bổ sung tính năng đọc/viết file lưu đơn mượn <br>
-    *Cần bổ sung phần bẫy lỗi trong chương trình, ràng buộc dữ liệu...
+    *Cần bổ sung phần bẫy lỗi trong chương trình, ràng buộc dữ liệu... <br>
     *Đang phát triển giao diện
   </b>
 
