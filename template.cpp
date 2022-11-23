@@ -160,6 +160,11 @@ void DSLK<T>::display()
     }
 }
 
+template <class T>
+T& DSLK<T>:: last() {
+    return *tail;
+}
+
 /*
 class T requirements for this method:
 already have suitable destructor method;

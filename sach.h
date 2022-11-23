@@ -33,7 +33,8 @@ class Sach {
     friend void read_file(ifstream&, DSLK<Node<Sach>>&);
     
     friend Sach& find_id (const string &, DSLK<Node<Sach>>&);
-    friend bool borrowbook(DSLK<Node<User>>& userlist, DSLK<Node<Sach>>& booklist, User& borrower, Sach& target);
+    friend bool borrowbook(User& borrower, Sach& target);
+    friend bool returnbook(User& borrower, Sach& target);
     /*
     friend functions:
     borrow books

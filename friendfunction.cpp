@@ -22,9 +22,34 @@ print list of books borrowing by a user
 #include <iostream>
 using namespace std;
 
+//--------------Essential functions---------------
+string increment(string & input) {
+    int len = input.length()-1;
+    for (int i = len; i>=0;i--) {
+        if (input[i]=='9') {
+            input[i]='0';
+            continue;
+        }
+        input[i]+=1;
+        break;
+    }
+    return input;
+}
+
+bool check_cmd(string & inp) {
+    int len = inp.length()-1;
+    for (int i=0;i<=len;i++) {
+        if (inp[i]<'0' || inp[i]>'9') return 0;
+    }
+    return 1;
+}
+
+//------------Operator << >> for Sach------------
+
 istream &operator>>(istream &inp, Sach &a)
 {
     cout << "Nhap ten sach: ";
+    inp.sync();
     getline(inp, a.tsach, '\n');
     cout << "Nhap ten tac gia: ";
     getline(inp, a.ttgia, '\n');
@@ -59,14 +84,24 @@ ifstream &operator>>(ifstream &inp, Sach &a)
     return inp;
 }
 
-//--------------------------------------
+//-------------Operator << >> for User------------
+
 
 istream &operator>>(istream &inp, User &a)
 {
     cout << "Nhap ten nguoi dung: ";
+    inp.sync();
     getline(inp, a.ten, '\n');
     cout << "Nhap so CMND: ";
-    inp >> a.cmd;
+    bool flag;
+    do 
+    {
+        inp >> a.cmd;    
+        flag = check_cmd(a.cmd);
+        if (!flag) {
+            cout<<"So CMND gom 9 ki tu so, vui long nhap lai: "; 
+        }
+    } while (!flag);
     return inp;
 }
 
@@ -89,7 +124,7 @@ ofstream &operator<<(ofstream &out, User &user)
     out << user.uid << '|' << user.ten << '|' << user.cmd << '\n';
 }
 
-//------------------------------------------
+//-------------Readfile & Writefile---------
 void read_file(ifstream &inp, DSLK<Node<Sach>> &list)
 {
     Sach temp;
@@ -134,24 +169,34 @@ void write_file(ofstream &out, DSLK<Node<Sach>> &list)
     }
 }
 
-template <class T>
-T& find_id (const string & lookid, DSLK<Node<T>>& list) {
-    Node<T>* temp = list.head;
+//------------Find & Borrow & Return------------
+
+Sach& find_id (const string & lookid, DSLK<Node<Sach>>& list) {
+    Node<Sach>* temp = list.head;
     for (int i =0;i<list.size;i++) {
-        if (temp->getdata().getid()==lookid) return *temp;
+        if (temp->getdata().getid()==lookid) return temp->getdata();
         temp = temp->tonext();
     }
     if (temp==NULL) throw MEMBER_NOTFOUND;
 }
-//-------------------------------------------
 
-bool borrowbook(DSLK<Node<User>>& userlist, DSLK<Node<Sach>>& booklist, User& borrower, Sach& target) {
+User& find_id (const string & lookid, DSLK<Node<User>>& list) {
+    Node<User>* temp = list.head;
+    for (int i =0;i<list.size;i++) {
+        if (temp->getdata().getid()==lookid) return temp->getdata();
+        temp = temp->tonext();
+    }
+    if (temp==NULL) throw MEMBER_NOTFOUND;
+}
+
+bool borrowbook(User& borrower, Sach& target) {
     if (target.soban==0) return 0; 
     User* borrower_ptr = &borrower;
     Sach* target_ptr = &target;
     borrower.getlist().insert(target_ptr);
     target.getlist().insert(borrower_ptr);
     target.soban--;
+    cout<<"function borrow succeed\n";
     return 1;
 }
 
@@ -160,6 +205,8 @@ bool returnbook(User& borrower, Sach& target) {
     Sach* target_ptr = &target;
     borrower.getlist().remove(target_ptr);
     target.getlist().remove(borrower_ptr);
+    target.soban++;
+    cout<<"function return succeed\n";
     return 1;
 }
 

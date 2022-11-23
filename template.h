@@ -51,6 +51,7 @@ public:
     T& update(U &);//update a member
     template <class U>
     T *find(U &);
+    T& last();
     void display();//display the list
     friend void write_file(ofstream &, DSLK<Node<Sach>> &);
     friend void write_file(ofstream&, DSLK<Node<User>>&);
